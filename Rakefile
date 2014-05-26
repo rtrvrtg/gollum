@@ -107,25 +107,33 @@ end
 #
 #############################################################################
 
-desc 'Create a release build'
+desc 'Create a release build and push to rubygems'
 task :release => :build do
   unless `git branch` =~ /^\* master$/
     puts "You must be on the master branch to release!"
     exit!
   end
   sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git pull"
+  sh "git pull --rebase origin master"
   sh "git tag v#{version}"
   sh "git push origin master"
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
 end
 
+desc 'Publish to rubygems. Same as release'
+task :publish => :release
+
 desc 'Build gem'
 task :build => :gemspec do
   sh "mkdir -p pkg"
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg"
+end
+
+desc "Build and install"
+task :install => :build do
+  sh "gem install --local --no-ri --no-rdoc pkg/#{name}-#{version}.gem"
 end
 
 desc 'Update gemspec'
