@@ -59,6 +59,9 @@
   <a data-toolbar-action='link' class='edit'>
   	<span class="fa fa-link" title="Link"></span>
   </a>
+  <a data-toolbar-action='image' class='edit'>
+  	<span class="fa fa-image" title="Image"></span>
+  </a>
 </div>
 
 <div id='editor_bg' class='editor_bg'></div>
@@ -80,7 +83,25 @@
 			</li>
 		</ol>
 	</fieldset>
-	<button data-action="submit">Save</button> 
+	<button data-action="submit">Add Link</button> 
+	<button data-action="cancel">Cancel</button> 
+</form>
+
+<form id="image-form" class="white-popup-block mfp-hide">
+	<h1>Add Image</h1>
+	<fieldset style="border:0;">
+		<ol>
+			<li>
+				<label for="new-image-url">Image URL</label>
+				<input id="new-image-url" name="new-image-url" type="txt" placeholder="http://example.com" required="true">
+			</li>
+			<li>
+				<label for="new-image-alt">Alt text</label>
+				<input id="new-image-alt" name="new-image-alt" type="text" placeholder="Text describing this image" required="true">
+			</li>
+		</ol>
+	</fieldset>
+	<button data-action="submit">Add Image</button> 
 	<button data-action="cancel">Cancel</button> 
 </form>
 

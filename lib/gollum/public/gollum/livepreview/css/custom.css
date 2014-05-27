@@ -1680,6 +1680,17 @@ so editor doesn't display in the background. */
   display: inline-block;
 }
 
+.toolpanel.edit a.edit:hover {
+  opacity: 0.8;
+}
+
+.toolpanel.edit a.edit:active,
+.toolpanel.edit a.edit:focus {
+  opacity: 1;
+  background: #444;
+  border-radius: 2px;
+}
+
 .toolpanel a {
   color: white;
   text-decoration: none;
