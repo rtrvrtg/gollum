@@ -3,6 +3,7 @@
 <head>
 <title>Live Preview</title>
 <link rel='stylesheet' type='text/css' href='../css/template.css' />
+<link rel='stylesheet' type='text/css' href='css/magnific-popup.inline.css' />
 <link rel='stylesheet' type='text/css' href='css/custom.css' />
 </head>
 
@@ -10,45 +11,51 @@
 <div id='editor'></div>
 <div id='previewframe'><div id='contentframe' class='markdown-body'></div></div>
 <!-- tool panel from notepage.es. save & savecomment icons from Retina Display Icon Set. -->  
-<div id='toolpanel' class='toolpanel edit' style='width: 500px; right: 0px; visibility: hidden;'>
+<div id='toolpanel' class='toolpanel edit' style='right: 0px; visibility: hidden;'>
   <a id='preview' class='edit'>
   	<span class="fa fa-eye" title="Preview"></span>
   </a>
-  <a id='save' class='edit'>
+  <a data-toolbar-action='save' class='edit'>
   	<span class="fa fa-save" title="Save"></span>
-  </a>
-  <a id='savecomment' class='edit'>
-  	<span class="fa fa-comment" title="Save with Comment"></span>
   </a>
   <a id='toggle' class='edit' href='javascript:void(0)' onclick='jsm.toggleLeftRight();'>
   	<span class="fa fa-arrows-h" title="Toggle left to right"></span>
   </a>
-  <a id='bold' class='edit'>
+  <a data-toolbar-action='bold' class='edit'>
   	<span class="fa fa-bold" title="Bold"></span>
   </a>
-  <a id='italic' class='edit'>
+  <a data-toolbar-action='italic' class='edit'>
   	<span class="fa fa-italic" title="Italic"></span>
   </a>
-  <a id='underline' class='edit'>
+  <a data-toolbar-action='underline' class='edit'>
   	<span class="fa fa-underline" title="Underline"></span>
   </a>
-  <a id='code' class='edit'>
+  <a data-toolbar-action='code' class='edit'>
   	<span class="fa fa-code" title="Code"></span>
   </a>
-  <a id='hr' class='edit'>
+  <a data-toolbar-action='hr' class='edit'>
   	<span class="fa fa-minus" title="Horizontal Rule"></span>
   </a>
-  <a id='quote' class='edit'>
+  <a data-toolbar-action='quote' class='edit'>
   	<span class="fa fa-quote-left" title="Block Quote"></span>
   </a>
-  <a id='h1' class='edit'>
+  <a data-toolbar-action='ul' class='edit'>
+  	<span class="fa fa-list-ul" title="Unordered List"></span>
+  </a>
+  <a data-toolbar-action='ol' class='edit'>
+  	<span class="fa fa-list-ol" title="Ordered List"></span>
+  </a>
+  <a data-toolbar-action='h1' class='edit'>
   	<span class="" title="Header 1">H1</span>
   </a>
-  <a id='h2' class='edit'>
+  <a data-toolbar-action='h2' class='edit'>
   	<span class="" title="Header 2">H2</span>
   </a>
-  <a id='h3' class='edit'>
+  <a data-toolbar-action='h3' class='edit'>
   	<span class="" title="Header 3">H3</span>
+  </a>
+  <a data-toolbar-action='link' class='edit'>
+  	<span class="fa fa-link" title="Link"></span>
   </a>
 </div>
 
@@ -66,6 +73,42 @@
 <div id='comment'></div>
 <div id='darkness'></div>
 
+
+
+<form id="link-form" class="white-popup-block mfp-hide">
+	<h1>Add Link</h1>
+	<fieldset style="border:0;">
+		<ol>
+			<li>
+				<label for="new-link-title">Link title</label>
+				<input id="new-link-title" name="new-link-title" type="text" placeholder="Title of page you're linking to" required="true">
+			</li>
+			<li>
+				<label for="new-link-url">Link URL</label>
+				<input id="new-link-url" name="new-link-url" type="txt" placeholder="http://example.com" required="true">
+			</li>
+		</ol>
+	</fieldset>
+	<button data-action="submit">Save</button> 
+	<button data-action="cancel">Cancel</button> 
+</form>
+
+<form id="save-form" class="white-popup-block mfp-hide">
+	<h1>Save</h1>
+	<button data-action="submit-quick">Save without comment</button> 
+	<fieldset style="border:0;">
+		<ol>
+			<li>
+				<label for="comment-text">Comment</label>
+				<textarea id="comment-text" name="comment-text" placeholder="Comment on this revision" required="true"></textarea>
+			</li>
+		</ol>
+	</fieldset>
+	<button data-action="submit">Save</button> 
+	<button data-action="cancel">Cancel</button> 
+</form>
+
+
 <script>
 var require = {
   paths: {
@@ -75,6 +118,7 @@ var require = {
 </script>
 <script src='js/requirejs.min.js'></script>
 <script src='../javascript/jquery-1.7.2.min.js'></script>
+<script src='js/magnific-popup.inline.js'></script>
 <script src='js/jquery.ba-throttle-debounce.min.js'></script>
 <script src='js/sundown.js'></script>
 <script src='js/md_sundown.js'></script>

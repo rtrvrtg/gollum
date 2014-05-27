@@ -1666,7 +1666,6 @@ so editor doesn't display in the background. */
   background: #666;
   top: 0;
   height: 30px;
-  width: 50%;
   vertical-align: middle;
   padding: 5px 0;
   margin: 0;
@@ -1703,3 +1702,38 @@ a img {
   border: none;
 }
 /* -- End from notepag.es -- */
+
+.white-popup-block {
+  background: #FFF;
+  padding: 20px 30px;
+  text-align: left;
+  max-width: 650px;
+  margin: 40px auto;
+  position: relative;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.white-popup-block ol {
+  list-style: none;
+  margin-bottom: 0.5em;
+}
+
+.white-popup-block li {
+  margin-top: 0.5em;
+}
+
+.white-popup-block input, .white-popup-block button, .white-popup-block textarea {
+  font-size: 1em;
+  padding: 0.5em;
+}
+
+.white-popup-block input, .white-popup-block textarea {
+  width: 100%;
+}
+
+.white-popup-block label {
+  display: block;
+  font-weight: bold;
+}
