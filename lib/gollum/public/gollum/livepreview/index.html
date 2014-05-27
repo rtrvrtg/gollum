@@ -4,6 +4,7 @@
 <title>Live Preview</title>
 <link rel='stylesheet' type='text/css' href='../css/template.css' />
 <link rel='stylesheet' type='text/css' href='css/magnific-popup.inline.css' />
+<link rel='stylesheet' type='text/css' href='css/select2.css' />
 <link rel='stylesheet' type='text/css' href='css/custom.css' />
 </head>
 
@@ -74,15 +75,16 @@
 
 <form id="link-form" class="white-popup-block mfp-hide">
 	<h1>Add Link</h1>
+	<input id="new-link-destination" name="new-link-destination" type="hidden" value="" />
 	<fieldset style="border:0;">
 		<ol>
 			<li>
-				<label for="new-link-title">Link title</label>
-				<input id="new-link-title" name="new-link-title" type="text" placeholder="Title of page you're linking to" required="true">
+				<label for="new-link-url">Link URL, or name of wiki page</label>
+				<input id="new-link-url" name="new-link-url" type="hidden" placeholder="http://example.com / Home" required="true" />
 			</li>
 			<li>
-				<label for="new-link-url">Link URL</label>
-				<input id="new-link-url" name="new-link-url" type="txt" placeholder="http://example.com" required="true">
+				<label for="new-link-title">Link title (optional)</label>
+				<input id="new-link-title" name="new-link-title" type="text" placeholder="Title of page you're linking to" />
 			</li>
 		</ol>
 	</fieldset>
@@ -96,11 +98,11 @@
 		<ol>
 			<li>
 				<label for="new-image-url">Image URL</label>
-				<input id="new-image-url" name="new-image-url" type="txt" placeholder="http://example.com" required="true">
+				<input id="new-image-url" name="new-image-url" type="text" placeholder="http://example.com" required="true" />
 			</li>
 			<li>
 				<label for="new-image-alt">Alt text</label>
-				<input id="new-image-alt" name="new-image-alt" type="text" placeholder="Text describing this image" required="true">
+				<input id="new-image-alt" name="new-image-alt" type="text" placeholder="Text describing this image" required="true" />
 			</li>
 		</ol>
 	</fieldset>
@@ -143,6 +145,7 @@ var require = {
 <script src='js/requirejs.min.js'></script>
 <script src='../javascript/jquery-1.7.2.min.js'></script>
 <script src='js/magnific-popup.inline.js'></script>
+<script src='js/select2.js'></script>
 <script src='js/jquery.ba-throttle-debounce.min.js'></script>
 <script src='js/sundown.js'></script>
 <script src='js/md_sundown.js'></script>

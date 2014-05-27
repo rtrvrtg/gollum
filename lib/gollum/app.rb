@@ -5,6 +5,7 @@ require 'gollum-lib'
 require 'mustache/sinatra'
 require 'useragent'
 require 'stringex'
+require 'json'
 
 require 'gollum'
 require 'gollum/views/layout'
@@ -340,6 +341,27 @@ module Precious
       mustache :page
     end
 
+    post '/fragments' do
+      content_type :json
+      processed_fragments = []
+
+      params[:fragments].each do |frag|
+        wiki           = wiki_new
+        @name          = params[:page] || "Preview"
+        @page          = wiki.preview_page(@name, frag, params[:format])
+        processed      = @page.formatted_data
+
+        processed_fragments << {
+          source: frag,
+          destination: processed
+        }
+      end
+
+      puts processed_fragments.inspect
+
+      processed_fragments.to_json
+    end
+
     get '/history/*' do
       @page     = wiki_page(params[:splat].first).page
       @page_num = [params[:page].to_i, 1].max
@@ -407,7 +429,13 @@ module Precious
       # Sort wiki search results by count (desc) and then by name (asc)
       @results = wiki.search(@query).sort { |a, b| (a[:count] <=> b[:count]).nonzero? || b[:name] <=> a[:name] }.reverse
       @name    = @query
-      mustache :search
+
+      if request.xhr?
+        content_type :json
+        @results.to_json
+      else
+        mustache :search
+      end
     end
 
     get %r{

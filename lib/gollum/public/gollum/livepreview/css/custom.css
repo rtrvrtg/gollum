@@ -1740,7 +1740,7 @@ a img {
   padding: 0.5em;
 }
 
-.white-popup-block input, .white-popup-block textarea {
+.white-popup-block input, .white-popup-block textarea, .white-popup-block .select2-container {
   width: 100%;
 }
 
