@@ -10,7 +10,9 @@
 <body>
 <div id='editor'></div>
 <div id='previewframe'><div id='contentframe' class='markdown-body'></div></div>
-<!-- tool panel from notepage.es. save & savecomment icons from Retina Display Icon Set. -->  
+
+<!-- toolbar -->
+
 <div id='toolpanel' class='toolpanel edit' style='right: 0px; visibility: hidden;'>
   <a id='preview' class='edit'>
   	<span class="fa fa-eye" title="Preview"></span>
@@ -62,18 +64,7 @@
 <div id='editor_bg' class='editor_bg'></div>
 <div class='toolpanel_bg'></div>
 
-<div id='commenttoolpanel' class='toolpanel edit' style='width: 500px; right: 0px; '>
-  <a id='savecommentconfirm' class='edit'>
-  	<img src='images/savecomment_24.png' alt='Confirm save with comment' title='Confirm save with comment'>
-  </a>
-  <a id='commentcancel' class='edit'>
-  	<img src='images/cancel_24.png' alt='Cancel save with comment' title='Cancel save with comment'>
-  </a>
-</div>
-<div id='comment'></div>
-<div id='darkness'></div>
-
-
+<!-- modal popup forms -->
 
 <form id="link-form" class="white-popup-block mfp-hide">
 	<h1>Add Link</h1>
@@ -108,6 +99,7 @@
 	<button data-action="cancel">Cancel</button> 
 </form>
 
+<!-- script includes -->
 
 <script>
 var require = {
