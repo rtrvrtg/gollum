@@ -62,6 +62,9 @@
   <a data-toolbar-action='image' class='edit'>
   	<span class="fa fa-image" title="Image"></span>
   </a>
+  <a data-toolbar-action='help' class='edit'>
+  	<span class="fa fa-question-circle" title="Markdown Help"></span>
+  </a>
 </div>
 
 <div id='editor_bg' class='editor_bg'></div>
@@ -104,6 +107,14 @@
 	<button data-action="submit">Add Image</button> 
 	<button data-action="cancel">Cancel</button> 
 </form>
+
+<div id="help-page" class="white-popup-block mfp-hide">
+	<h1>Help</h1>
+	<div id="help-page-content">
+	</div>
+</div>
+
+<!-- ../gollum/javascript/editor/langs/markdown.js -->
 
 <form id="save-form" class="white-popup-block mfp-hide">
 	<h1>Save</h1>
