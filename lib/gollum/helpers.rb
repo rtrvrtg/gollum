@@ -39,5 +39,20 @@ module Precious
       url.gsub('%2F', '/').gsub(/^\/+/, '').gsub('//', '/')
     end
 
+    # Build a URL to a CSS or JS asset
+    def asset_url asset
+      "#{@base_url}/#{asset}"
+    end
+
+    # Build a list of assets to include
+    def asset_list type
+      assets = []
+
+      if type == :css
+      end
+
+      assets
+    end
+
   end
 end

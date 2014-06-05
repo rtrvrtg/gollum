@@ -5,6 +5,7 @@ require 'gollum-lib'
 require 'mustache/sinatra'
 require 'useragent'
 require 'stringex'
+require 'sinatra/assetpack'
 require 'json'
 
 require 'gollum'
@@ -76,6 +77,82 @@ module Precious
 
         # Tell mustache where the views are
         :views     => "#{dir}/views"
+    }
+
+    # Asset packing
+    # We only use it if settings.wiki_options.pack_assets is enabled
+    set :root, "#{dir}"
+    register Sinatra::AssetPack
+
+    @@asset_library = {
+      :js => {
+        :app => {
+          :target => '/pack-js/app.js',
+          :sources => [
+            '/javascript/jquery-1.11.1.min.js',
+            '/javascript/jquery.browser.min.js',
+            '/javascript/gollum.js',
+            '/javascript/gollum.dialog.js',
+            '/javascript/gollum.placeholder.js',
+          ]
+        },
+        :editor => {
+          :target => '/pack-js/editor.js',
+          :sources => [
+            '/javascript/mousetrap.min.js',
+            '/javascript/require.js',
+            '/javascript/jquery.textmanipulator.js',
+            '/javascript/jquery.sidr.js',
+            '/javascript/highlight.pack.js',
+            '/javascript/editor/gollum.format_selector.js',
+            '/javascript/editor/gollum.editor.js',
+            '/javascript/editor/gollum.preview.js',
+          ]
+        }
+      },
+      :css => {
+        :app => {
+          :target => '/pack-css/app.css',
+          :sources => [
+            '/css/gollum.css',
+            '/css/dialog.css',
+            '/css/template.css',
+          ]
+        },
+        :print => {
+          :target => '/pack-css/app.print.css',
+          :sources => [
+            '/css/print.css',
+          ]
+        },
+        :editor => {
+          :target => '/pack-css/editor.css',
+          :sources => [
+            '/css/editor.css',
+            '/css/jquery.sidr.light.css',
+            '/css/highlightjs-github.css',
+          ]
+        }
+      }
+    }
+
+    assets {
+      @@asset_library.each do |_type, items|
+        items.each do |item_name, item_data|
+          if _type == :js
+
+            js item_name, item_data[:target], item_data[:sources]
+
+          elsif _type == :css
+
+            css item_name, item_data[:target], item_data[:sources]
+
+          end
+        end
+      end
+
+      js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
+      css_compression :simple   # :simple | :sass | :yui | :sqwish
     }
 
     # Sinatra error handling
