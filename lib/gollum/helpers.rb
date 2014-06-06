@@ -41,18 +41,35 @@ module Precious
 
     # Build a URL to a CSS or JS asset
     def asset_url asset
-      "#{@base_url}/#{asset}"
+      "#{@base_url}#{asset}"
     end
 
     # Build a list of assets to include
-    def asset_list type
-      assets = []
+    def asset_list type, asset_library, aggregated = false
+      raw_asset_list = {}
+      raw_asset_list = asset_library[type] if type == :css
+      raw_asset_list = asset_library[type] if type == :js
 
-      if type == :css
-      end
+      sources = raw_asset_list.values.map { |items|
+        items[:sources].map { |file|
+          {
+            file: asset_url(file),
+            media: items[:media]
+          }
+        }
+      }.flatten
 
-      assets
+      targets = raw_asset_list.values.map { |items|
+        {
+          file: asset_url(items[:target]),
+          media: items[:media]
+        }
+      }
+
+      output = sources
+      output = targets if aggregated
+
+      output
     end
-
   end
 end

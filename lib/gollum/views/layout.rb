@@ -32,6 +32,13 @@ module Precious
         @js
       end
 
+      def assets_css
+        @assets[:css]
+      end
+
+      def assets_js
+        @assets[:js]
+      end
     end
   end
 end

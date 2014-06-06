@@ -84,7 +84,7 @@ module Precious
     set :root, "#{dir}"
     register Sinatra::AssetPack
 
-    @@asset_library = {
+    asset_library = {
       :js => {
         :app => {
           :target => '/pack-js/app.js',
@@ -117,13 +117,15 @@ module Precious
             '/css/gollum.css',
             '/css/dialog.css',
             '/css/template.css',
-          ]
+          ],
+          :media => "all"
         },
         :print => {
           :target => '/pack-css/app.print.css',
           :sources => [
             '/css/print.css',
-          ]
+          ],
+          :media => "print"
         },
         :editor => {
           :target => '/pack-css/editor.css',
@@ -131,28 +133,28 @@ module Precious
             '/css/editor.css',
             '/css/jquery.sidr.light.css',
             '/css/highlightjs-github.css',
-          ]
+          ],
+          :media => "all"
         }
       }
     }
 
     assets {
-      @@asset_library.each do |_type, items|
+      asset_library.each do |_type, items|
         items.each do |item_name, item_data|
           if _type == :js
-
             js item_name, item_data[:target], item_data[:sources]
-
           elsif _type == :css
-
             css item_name, item_data[:target], item_data[:sources]
-
           end
         end
       end
 
       js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
       css_compression :simple   # :simple | :sass | :yui | :sqwish
+
+      cache_dynamic_assets true
+      expires 86400*365, :public
     }
 
     # Sinatra error handling
@@ -171,6 +173,12 @@ module Precious
       settings.wiki_options.merge!({ :base_path => @base_url })
       @css = settings.wiki_options[:css]
       @js  = settings.wiki_options[:js]
+
+      @pack_assets = !!settings.wiki_options[:pack_assets]
+      @assets = {
+        css: asset_list(:css, asset_library, @pack_assets),
+        js: asset_list(:js, asset_library, @pack_assets),
+      }
     end
 
     get '/' do
