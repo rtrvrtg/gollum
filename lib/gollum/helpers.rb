@@ -71,5 +71,18 @@ module Precious
 
       output
     end
+
+    def forbid(msg = "Forbidden.")
+      @message = msg
+      status 403
+      halt mustache :error
+    end
+
+    def not_found(msg = nil)
+      @message = msg || "The requested page does not exist."
+      status 404
+      return mustache :error
+    end
+
   end
 end

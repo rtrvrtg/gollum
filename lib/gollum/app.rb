@@ -15,6 +15,8 @@ require 'gollum/views/has_page'
 
 require File.expand_path '../helpers', __FILE__
 
+require 'gollum/editing_auth'
+
 #required to upload bigger binary files
 Gollum::set_git_timeout(120)
 Gollum::set_git_max_filesize(190 * 10**6)
@@ -44,6 +46,7 @@ module Precious
   class App < Sinatra::Base
     register Mustache::Sinatra
     include Precious::Helpers
+    use Precious::EditingAuth
 
     dir     = File.dirname(File.expand_path(__FILE__))
 
@@ -179,6 +182,9 @@ module Precious
         css: asset_list(:css, asset_library, @pack_assets),
         js: asset_list(:js, asset_library, @pack_assets),
       }
+
+      @mathjax_config = settings.wiki_options[:mathjax_config]
+      @allow_editing = settings.wiki_options.fetch(:allow_editing, true)
     end
 
     get '/' do
@@ -193,7 +199,6 @@ module Precious
     # name, path, version
     def wiki_page(name, path = nil, version = nil, exact = true)
       wiki = wiki_new
-
       path = name if path.nil?
       name = extract_name(name) || wiki.index_page
       path = extract_path(path)
@@ -214,11 +219,14 @@ module Precious
     end
 
     get '/edit/*' do
+      forbid unless @allow_editing
       wikip = wiki_page(params[:splat].first)
       @name = wikip.name
       @path = wikip.path
+      @upload_dest   = find_upload_dest(@path)
 
       wiki = wikip.wiki
+      @allow_uploads = wiki.allow_uploads
       if page = wikip.page
         @page         = page
         @page.version = wiki.repo.log(wiki.ref, @page.path).first
@@ -332,21 +340,27 @@ module Precious
     end
 
     get '/delete/*' do
+      forbid unless @allow_editing
       wikip = wiki_page(params[:splat].first)
       name  = wikip.name
       wiki  = wikip.wiki
       page  = wikip.page
       unless page.nil?
-        wiki.delete_page(page, { :message => "Destroyed #{name} (#{page.format})" })
+        commit           = commit_message
+        commit[:message] = "Destroyed #{name} (#{page.format})"
+        wiki.delete_page(page, commit)
       end
 
       redirect to('/')
     end
 
     get '/create/*' do
+      forbid unless @allow_editing
       wikip = wiki_page(params[:splat].first.gsub('+', '-'))
       @name = wikip.name.to_url
       @path = wikip.path
+      @allow_uploads = wikip.wiki.allow_uploads
+      @upload_dest   = find_upload_dest(@path)
 
       wiki = wikip.wiki
       @livepreview = wiki.live_preview && supported_useragent?(request.user_agent)
@@ -456,6 +470,13 @@ module Precious
       end
     end
 
+    get '/latest_changes' do
+      @wiki = wiki_new
+      max_count = settings.wiki_options.fetch(:latest_changes_count, 10)
+      @versions = @wiki.latest_changes({:max_count => max_count})
+      mustache :latest_changes
+    end
+    
     post '/compare/*' do
       @file     = params[:splat].first
       @versions = params[:versions] || []
@@ -501,6 +522,8 @@ module Precious
         @content = page.formatted_data
         @version = version
         mustache :page
+      elsif file = wikip.wiki.file("#{file_path}", version, true)
+        show_file(file)
       else
         halt 404
       end
@@ -591,10 +614,7 @@ module Precious
         @page          = page
         @name          = name
         @content       = page.formatted_data
-        @upload_dest   = settings.wiki_options[:allow_uploads] ?
-            (settings.wiki_options[:per_page_uploads] ?
-                "#{path}/#{@name}".sub(/^\/\//, '') : 'uploads'
-            ) : ''
+        @upload_dest   = find_upload_dest(path)
 
         # Extensions and layout data
         @editable      = true
@@ -607,15 +627,21 @@ module Precious
 
         mustache :page
       elsif file = wiki.file(fullpath, wiki.ref, true)
-        if file.on_disk?
-          send_file file.on_disk_path, :disposition => 'inline'
-        else
-          content_type file.mime_type
-          file.raw_data
-        end
+        show_file(file)
       else
+        not_found unless @allow_editing
         page_path = [path, name].compact.join('/')
         redirect to("/create/#{clean_url(encodeURIComponent(page_path))}")
+      end
+    end
+
+    def show_file(file)
+      return unless file
+      if file.on_disk?
+        send_file file.on_disk_path, :disposition => 'inline'
+      else
+        content_type file.mime_type
+        file.raw_data
       end
     end
 
@@ -642,6 +668,13 @@ module Precious
       author_parameters = session['gollum.author']
       commit_message.merge! author_parameters unless author_parameters.nil?
       commit_message
+    end
+
+    def find_upload_dest(path)
+      settings.wiki_options[:allow_uploads] ?
+          (settings.wiki_options[:per_page_uploads] ?
+              "#{path}/#{@name}".sub(/^\/\//, '') : 'uploads'
+          ) : ''
     end
   end
 end

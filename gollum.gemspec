@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9'
 
   s.name              = 'gollum'
-  s.version           = '3.0.0.1anchor11'
-  s.date              = '2014-06-10'
+  s.version           = '3.1.1.1anchor1'
+  s.date              = '2014-12-04'
   s.rubyforge_project = 'gollum'
   s.license           = 'MIT'
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ['--charset=UTF-8']
   s.extra_rdoc_files = %w[README.md LICENSE]
 
-  s.add_dependency 'gollum-lib', '~> 3.0'
+  s.add_dependency 'gollum-lib', '~> 4.0', '>= 4.0.1'
   s.add_dependency 'github-markdown', '~> 0.6.5'
   s.add_dependency 'sinatra', '~> 1.4', '>= 1.4.4'
   s.add_dependency 'mustache', ['>= 0.99.5', '< 1.0.0']
@@ -46,10 +46,14 @@ Gem::Specification.new do |s|
     Rakefile
     bin/gollum
     config.rb
+    contrib/openrc/conf.d/gollum
+    contrib/openrc/init.d/gollum
+    contrib/systemd/gollum@.service
     docs/sanitization.md
     gollum.gemspec
     lib/gollum.rb
     lib/gollum/app.rb
+    lib/gollum/editing_auth.rb
     lib/gollum/helpers.rb
     lib/gollum/public/gollum/css/_styles.css
     lib/gollum/public/gollum/css/dialog.css
@@ -528,6 +532,7 @@ Gem::Specification.new do |s|
     lib/gollum/templates/history_authors/gravatar.mustache
     lib/gollum/templates/history_authors/identicon.mustache
     lib/gollum/templates/history_authors/none.mustache
+    lib/gollum/templates/latest_changes.mustache
     lib/gollum/templates/layout.mustache
     lib/gollum/templates/page.mustache
     lib/gollum/templates/pages.mustache
@@ -542,6 +547,7 @@ Gem::Specification.new do |s|
     lib/gollum/views/file_view.rb
     lib/gollum/views/has_page.rb
     lib/gollum/views/history.rb
+    lib/gollum/views/latest_changes.rb
     lib/gollum/views/layout.rb
     lib/gollum/views/page.rb
     lib/gollum/views/pages.rb
@@ -549,8 +555,6 @@ Gem::Specification.new do |s|
     licenses/css_tree_menu_thecssninja/license.txt
     licenses/licenses.txt
     licenses/unity_asset_pool/COPYRIGHT
-    openrc/conf.d/gollum
-    openrc/init.d/gollum
   ]
   # = MANIFEST =
 

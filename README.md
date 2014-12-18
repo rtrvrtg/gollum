@@ -29,7 +29,7 @@ Gollum follows the rules of [Semantic Versioning](http://semver.org/) and uses
 
 ## SECURITY
 
-Don't enable `--custom-css` or `--custom-js` unless you trust every user who has the ability to edit the wiki.
+Don't enable `--custom-css`, `--custom-js` or `--mathjax-config` unless you trust every user who has the ability to edit the wiki.
 A better solution with more security is being tracked in [#665](https://github.com/gollum/gollum/issues/665).
 
 ## INSTALLATION
@@ -39,6 +39,7 @@ The best way to install Gollum is with RubyGems:
 ```bash
 $ [sudo] gem install gollum
 ```
+You may first need to install some additional [development packages](https://github.com/gollum/gollum/wiki/Installation) for your OS.
 
 If you're installing from source, you can use [Bundler][bundler] to pick up all the
 gems:
@@ -51,7 +52,7 @@ In order to use the various formats that Gollum supports, you will need to
 separately install the necessary dependencies for each format. You only need
 to install the dependencies for the formats that you plan to use.
 
-* [ASCIIDoc](http://www.methods.co.nz/asciidoc/) -- `brew install asciidoc` on mac or `apt-get install -y asciidoc` on Ubuntu
+* [AsciiDoc](http://asciidoctor.org) -- `gem install asciidoctor`
 * [Creole](http://wikicreole.org/) -- `gem install creole`
 * [Markdown](http://daringfireball.net/projects/markdown/) -- `gem install redcarpet`
 * [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) -- `gem install github-markdown`
@@ -98,23 +99,26 @@ Options:
         --port [PORT]                Bind port (default 4567).
         --host [HOST]                Hostname or IP address to listen on (default 0.0.0.0).
         --version                    Display current version.
-        --config [CONFIG]            Path to additional configuration file
+        --config [CONFIG]            Path to additional configuration file.
+        --adapter [ADAPTER]          Git adapter to use in the backend. Defaults to grit.
         --irb                        Start an irb process with gollum loaded for the current wiki.
-        --css                        Inject custom css. Uses custom.css from root repository
-        --js                         Inject custom js. Uses custom.js from root repository
-        --template-dir [PATH]        Specify custom template directory
+        --css                        Inject custom css. Uses custom.css from root repository.
+        --js                         Inject custom js. Uses custom.js from root repository.
+        --template-dir [PATH]        Specify custom template directory.
         --page-file-dir [PATH]       Specify the sub directory for all page files (default: repository root).
-        --base-path [PATH]           Specify the base path.
-        --gollum-path [PATH]         Specify the gollum path.
+        --base-path [PATH]           Specify the base path for the served pages (default: /) Example: --base-path wiki yields the home page accessible at http://localhost:4567/wiki/.
+        --gollum-path [PATH]         Specify the path to the git repository to be served.
         --ref [REF]                  Specify the repository ref to use (default: master).
+        --no-edit                    Restricts editing capability through frontend.
         --no-live-preview            Disables livepreview.
         --live-preview               Enables livepreview.
-        --allow-uploads              Allows file uploads.
-        --mathjax                    Enables mathjax.
+        --allow-uploads [MODE]       Allows file uploads. Modes: dir (default, store all uploads in the same directory), page (store each upload at the same location as the page).
+        --mathjax                    Enables mathjax for rendering mathematical equations. Uses the TeX-AMS-MML_HTMLorMML config with the autoload-all extension by default.
+        --mathjax-config [SOURCE]    Inject custom mathjax config file. Uses mathjax.config.js from root repository by default.
         --user-icons [SOURCE]        Set the history user icons. Valid values: gravatar, identicon, none. Default: none.
         --show-all                   Shows all files in file view. By default only valid pages are shown.
         --collapse-tree              Collapse file view tree. By default, expanded tree is shown.
-        --h1-title                   Sets page title to value of first h1
+        --h1-title                   Sets page title to value of first h1.
 ```
 
 Note that the gollum server will not run on Windows because of [an issue](https://github.com/rtomayko/posix-spawn/issues/9) with posix-spawn (which is used by Grit).
