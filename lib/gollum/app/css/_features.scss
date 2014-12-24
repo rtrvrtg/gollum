@@ -1,0 +1,82 @@
+@mixin alt-box-model {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+@mixin reset-box {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+@mixin four-edge-position($padding: 0px) {
+  top: $padding;
+  right: $padding;
+  bottom: $padding;
+  left: $padding;
+}
+
+@mixin border-radius($radius: 0px){
+  border-radius: $radius;
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+}
+
+@mixin clearfix {
+  &:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+@mixin section-header {
+  h1 {
+    color: #999;
+    font-weight: normal;
+
+    strong {
+      color: #000;
+      font-weight: bold;
+    }
+  }
+}
+
+@mixin vertical-gradient($start-color, $end-color) {
+  filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#{$start-color}', endColorstr='#{$end-color}');
+  background: -webkit-gradient(linear, left top, left bottom, from($start-color), to($end-color));
+  background: -moz-linear-gradient(top, $start-color, $end-color);
+}
+
+@mixin button-base {
+  display: block;
+
+  font-weight: bold;
+
+  color: $button-text;
+  background-color: $light-grey;
+  border: 1px solid $button-border;
+  text-shadow: 0 1px 0 #fff;
+
+  cursor: pointer;
+
+  @include vertical-gradient(#f4f4f4, #ececec);
+  @include border-radius(3px);
+
+  &:hover {
+    color: #fff;
+    background: $button-background-hover;
+    border-color: $button-border-hover $button-border-hover $button-border-hover-hi;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+
+    text-decoration: none;
+
+    @include vertical-gradient($button-background-hover-hi, $button-background-hover);
+  }
+
+  &:visited {
+    text-decoration: none;
+  }
+}

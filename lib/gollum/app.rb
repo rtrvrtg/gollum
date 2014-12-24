@@ -1,12 +1,14 @@
 # ~*~ encoding: utf-8 ~*~
 require 'cgi'
 require 'sinatra'
+require 'sinatra/assetpack'
 require 'gollum-lib'
 require 'mustache/sinatra'
 require 'useragent'
 require 'stringex'
 require 'sinatra/assetpack'
 require 'json'
+require 'sass'
 
 require 'gollum'
 require 'gollum/views/layout'
@@ -44,6 +46,7 @@ end
 # See the wiki.rb file for more details on wiki options
 module Precious
   class App < Sinatra::Base
+    register Sinatra::AssetPack
     register Mustache::Sinatra
     include Precious::Helpers
     use Precious::EditingAuth
@@ -82,10 +85,11 @@ module Precious
         :views     => "#{dir}/views"
     }
 
-    # Asset packing
-    # We only use it if settings.wiki_options.pack_assets is enabled
-    set :root, "#{dir}"
-    register Sinatra::AssetPack
+    set :root, dir
+
+    set :scss, {
+        :load_paths => ["#{dir}/app/css", "#{dir}/public/gollum/css"]
+    }
 
     asset_library = {
       :js => {
@@ -117,8 +121,8 @@ module Precious
         :app => {
           :target => '/pack-css/app.css',
           :sources => [
-            '/css/gollum.css',
-            '/css/dialog.css',
+            '/css/gollum.scss',
+            '/css/dialog.scss',
             '/css/template.css',
           ],
           :media => "all"
@@ -133,7 +137,7 @@ module Precious
         :editor => {
           :target => '/pack-css/editor.css',
           :sources => [
-            '/css/editor.css',
+            '/css/editor.scss',
             '/css/jquery.sidr.light.css',
             '/css/highlightjs-github.css',
           ],
@@ -153,8 +157,8 @@ module Precious
         end
       end
 
-      js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
-      css_compression :simple   # :simple | :sass | :yui | :sqwish
+      js_compression  :jsmin
+      css_compression :sass
 
       cache_dynamic_assets true
       expires 86400*365, :public
@@ -476,7 +480,7 @@ module Precious
       @versions = @wiki.latest_changes({:max_count => max_count})
       mustache :latest_changes
     end
-    
+
     post '/compare/*' do
       @file     = params[:splat].first
       @versions = params[:versions] || []
