@@ -60,8 +60,14 @@ module Precious
       }.flatten
 
       targets = raw_asset_list.values.map { |items|
+        f = items[:target]
+
+        if items[:target].is_a?(Symbol)
+          f = "/assets/#{items[:target].to_s}.#{type}"
+        end
+
         {
-          file: asset_url(items[:target]),
+          file: asset_url(f),
           media: items[:media]
         }
       }

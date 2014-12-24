@@ -94,7 +94,7 @@ module Precious
     asset_library = {
       :js => {
         :app => {
-          :target => '/pack-js/app.js',
+          :target => '/gollum/app.js',
           :sources => [
             '/javascript/jquery-1.11.1.min.js',
             '/javascript/jquery.browser.min.js',
@@ -104,7 +104,7 @@ module Precious
           ]
         },
         :editor => {
-          :target => '/pack-js/editor.js',
+          :target => '/gollum/editor.js',
           :sources => [
             '/javascript/mousetrap.min.js',
             '/javascript/require.js',
@@ -119,25 +119,25 @@ module Precious
       },
       :css => {
         :app => {
-          :target => '/pack-css/app.css',
+          :target => '/gollum/app.css',
           :sources => [
-            '/css/gollum.scss',
-            '/css/dialog.scss',
+            '/css/gollum.css', # SASS
+            '/css/dialog.css', # SASS
             '/css/template.css',
           ],
           :media => "all"
         },
         :print => {
-          :target => '/pack-css/app.print.css',
+          :target => '/gollum/app.print.css',
           :sources => [
             '/css/print.css',
           ],
           :media => "print"
         },
         :editor => {
-          :target => '/pack-css/editor.css',
+          :target => '/gollum/editor.css',
           :sources => [
-            '/css/editor.scss',
+            '/css/editor.css', # SASS
             '/css/jquery.sidr.light.css',
             '/css/highlightjs-github.css',
           ],
