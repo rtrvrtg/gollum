@@ -30,7 +30,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'sinatra-assetpack', '~> 0.3.0'
   s.add_dependency 'mustache', ['>= 0.99.5', '< 1.0.0']
   s.add_dependency 'useragent', '~> 0.10.0'
-  s.add_dependency 'sinatra-assetpack'
   s.add_dependency 'sass', '~> 3.4.0'
 
   s.add_development_dependency 'rack-test', '~> 0.6.2'
@@ -64,9 +63,6 @@ Gem::Specification.new do |s|
     lib/gollum/editing_auth.rb
     lib/gollum/helpers.rb
     lib/gollum/public/gollum/css/_styles.css
-    lib/gollum/public/gollum/css/dialog.css
-    lib/gollum/public/gollum/css/editor.css
-    lib/gollum/public/gollum/css/gollum.css
     lib/gollum/public/gollum/css/highlightjs-github.css
     lib/gollum/public/gollum/css/ie7.css
     lib/gollum/public/gollum/css/jquery.sidr.light.css
