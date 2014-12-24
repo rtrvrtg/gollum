@@ -181,10 +181,9 @@ module Precious
       @css = settings.wiki_options[:css]
       @js  = settings.wiki_options[:js]
 
-      @pack_assets = !!settings.wiki_options[:pack_assets]
       @assets = {
-        css: asset_list(:css, asset_library, @pack_assets),
-        js: asset_list(:js, asset_library, @pack_assets),
+        css: asset_list(:css, asset_library),
+        js: asset_list(:js, asset_library),
       }
 
       @mathjax_config = settings.wiki_options[:mathjax_config]

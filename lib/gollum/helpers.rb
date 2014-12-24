@@ -45,7 +45,7 @@ module Precious
     end
 
     # Build a list of assets to include
-    def asset_list type, asset_library, aggregated = false
+    def asset_list type, asset_library, aggregated = true
       raw_asset_list = {}
       raw_asset_list = asset_library[type] if type == :css
       raw_asset_list = asset_library[type] if type == :js
