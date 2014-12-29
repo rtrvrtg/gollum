@@ -96,24 +96,24 @@ module Precious
         :app => {
           :target => '/gollum/app.js',
           :sources => [
-            '/javascript/jquery-1.11.1.min.js',
-            '/javascript/jquery.browser.min.js',
-            '/javascript/gollum.js',
-            '/javascript/gollum.dialog.js',
-            '/javascript/gollum.placeholder.js',
+            '/gollum/js/jquery-1.11.1.min.js',
+            '/gollum/js/jquery.browser.min.js',
+            '/gollum/js/gollum.js',
+            '/gollum/js/gollum.dialog.js',
+            '/gollum/js/gollum.placeholder.js',
           ]
         },
         :editor => {
           :target => '/gollum/editor.js',
           :sources => [
-            '/javascript/mousetrap.min.js',
-            '/javascript/require.js',
-            '/javascript/jquery.textmanipulator.js',
-            '/javascript/jquery.sidr.js',
-            '/javascript/highlight.pack.js',
-            '/javascript/editor/gollum.format_selector.js',
-            '/javascript/editor/gollum.editor.js',
-            '/javascript/editor/gollum.preview.js',
+            '/gollum/js/mousetrap.min.js',
+            '/gollum/js/require.js',
+            '/gollum/js/jquery.textmanipulator.js',
+            '/gollum/js/jquery.sidr.js',
+            '/gollum/js/highlight.pack.js',
+            '/gollum/js/editor/gollum.format_selector.js',
+            '/gollum/js/editor/gollum.editor.js',
+            '/gollum/js/editor/gollum.preview.js',
           ]
         }
       },
@@ -121,8 +121,8 @@ module Precious
         :app => {
           :target => '/gollum/app.css',
           :sources => [
-            '/css/gollum.css', # SASS
-            '/css/dialog.css', # SASS
+            '/gollum/css/gollum.css', # SASS
+            '/gollum/css/dialog.css', # SASS
             '/css/template.css',
           ],
           :media => "all"
@@ -137,7 +137,7 @@ module Precious
         :editor => {
           :target => '/gollum/editor.css',
           :sources => [
-            '/css/editor.css', # SASS
+            '/gollum/css/editor.css', # SASS
             '/css/jquery.sidr.light.css',
             '/css/highlightjs-github.css',
           ],
@@ -147,6 +147,9 @@ module Precious
     }
 
     assets {
+      serve '/gollum/css', from: "app/css"
+      serve '/gollum/js', from: "public/gollum/javascript"
+
       asset_library.each do |_type, items|
         items.each do |item_name, item_data|
           if _type == :js
